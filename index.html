@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>360全景图</title>
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <!-- 启用webAPP全屏模式-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- 隐藏状态栏或者设置状态栏的颜色-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- 禁止缓存访问页面-->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="applicable-device" content="mobile">
+    <!-- 页面关键词-->
+    <link rel="stylesheet" href="css/photo-sphere-viewer.min.css">
+
+    <script src="js/three.min.js"></script>
+    <script src="js/D.min.js"></script>
+    <script src="js/doT.min.js"></script>
+    <script src="js/uevent.min.js"></script>
+    <script src="js/photo-sphere-viewer.min.js"></script>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        text-decoration: none;
+        border: 0;
+        outline: 0;
+    }
+    .main{
+        max-width: 640px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <h3 id="title" style=""></h3>
+    <div id="container"></div>
+    <div id="content" style="display: none">家琪哥买球技术是真的牛逼</div>
+</div>
+</body>
+<script>
+    window.onload=function(){
+        getTitleHeight();
+        loadingAllImg();
+    }
+    //让全景图刚好撑满屏幕
+    var canvasHeight;
+    function getTitleHeight(){
+        var title=document.getElementById('title');
+        var titleHeight=parseFloat(getComputedStyle(title).height);
+        var maxHeight=window.innerHeight;
+        canvasHeight=parseFloat(maxHeight-titleHeight)+'px';
+    }
+    //全景图参数配置函数
+    function loadingAllImg(){
+        var div = document.getElementById('container');
+        var PSV = new PhotoSphereViewer({
+            // 全景图的完整路径
+            panorama: 'images/test2.jpg',
+
+            // 放全景图的元素
+            container: div,
+
+            loading_img: 'images/load.png',
+
+
+            // 可选，默认值为2000，全景图在time_anim毫秒后会自动进行动画。（设置为false禁用它）
+            time_anim: 0,
+
+            // 可选值，默认为false。显示导航条。
+            navbar: true,
+
+            // 可选，默认值null，全景图容器的最终尺寸。例如：{width: 500, height: 300}。
+            size: {
+                width: '100%',
+                height: canvasHeight
+            },
+
+            gyroscope:true,
+
+            markers: [
+                {
+                    // image marker that opens the panel when clicked
+                    id: 'image',
+                    longitude: 0.2,
+                    latitude: -0.13770,
+                    image: 'images/pin-blue.png',
+                    caption: '<b>云算科技</b>',
+                    gyroscope:true,
+                    width: 32,
+                    height: 32,
+                    anchor: 'bottom center',
+                    tooltip: '这是一个坐标',
+                    content: document.getElementById('content').innerHTML
+                }],
+
+            navbar: [
+                'autorotate',
+                'markers',
+                {
+                    id: 'my-button',
+                    title: 'Hello world',
+                    className: 'custom-button',
+                    content: 'btn',
+                    onClick: function() {
+                        alert('这里是我自己定义的一个功能按钮：刘瑞琳');
+                    }
+                },
+                'gyroscope',
+                'caption',
+                'fullscreen'
+            ],
+        });
+    }
+</script>
+</html>
